@@ -1,6 +1,6 @@
 # linkit
 
-A new Flutter project.
+_A new Flutter project._
 
 ## Getting Started
 
