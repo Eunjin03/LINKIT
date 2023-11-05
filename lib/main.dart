@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'intro_screen.dart';
+import 'login_screen.dart';
+
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -8,31 +12,27 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title:'First app',
-        theme: ThemeData(primarySwatch: Colors.blue),
-        home: MyHomePage(),
+        home: FutureBuilder(
+          future: Future.delayed(
+              const Duration(seconds: 2), () => "Intro Completed."),
+          builder: (context, snapshot) {
+            return AnimatedSwitcher(
+
+                duration: const Duration(milliseconds: 1000),
+                child: _splashLoadingWidget(snapshot)
+            );
+          },
+        )
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/1안.png'),
-          fit: BoxFit.cover,
-        ),
-      ),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Center(
-            child: Image.asset('assets/linkit_logo.png')
-          ),
-        )
-    );
+Widget _splashLoadingWidget(AsyncSnapshot<Object?> snapshot) {
+  if(snapshot.hasError) {
+    return const Text("Error!!");
+  } else if(snapshot.hasData) {
+    return const MyHomePage();
+  } else {
+    return const IntroScreen();
   }
 }
